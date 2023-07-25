@@ -91,24 +91,7 @@ class Solution:
                 Cj.append(f[j]*g[j])
             convolutionA.append(self.integrateTrapz(Cj, self.data.ti[:i+1]))
         return convolutionA
-        
-        """
-            [TODO] (1b) Define f
-        """
-        # f =
-        """
-            [TODO] (1c) Define g
-        """
-        # g = 
-        """
-            [TODO] (1d) Form the integrand f(tau)*g(t-tau) 
-        """
-        # I = 
-        """ 
-            [TODO] (1e) Integrate I over t_i[:i+1]
-        """
-        # ...
-        return convolutionA
+
 
     def compute_cdf(self):
         A = self.integrateTrapz(self.convolutionA, self.data.ti)
