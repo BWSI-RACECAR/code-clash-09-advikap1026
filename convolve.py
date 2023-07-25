@@ -141,7 +141,7 @@ class Solution:
                 lo = mid
             else:
                 hi = mid
-        if abs(cdf_values[hi] - target < epsilon):
+        if abs(cdf_values[hi] - target) < epsilon:
             return hi 
         else:
             return lo 
