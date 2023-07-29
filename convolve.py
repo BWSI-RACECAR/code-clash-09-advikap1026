@@ -1,5 +1,7 @@
 #import matplotlib.pyplot as plt 
 
+import matplotlib.pyplot as plt
+        
 class DataInput:
     def __init__(self):
         self.probModel = float(input("Enter the probability model: "))
@@ -9,8 +11,8 @@ class DataInput:
         self.mean2A = sum(self.timesObs2A)/len(self.timesObs1A)
         self.T = 50
         self.ti = [t for t in range(self.T)]
-        
-class Solution:
+
+class DataAnalysis:
     def __init__(self, data):
         self.data = data
         self.f1A = [self.uniformPDF(fti, min(self.data.timesObs1A), max(self.data.timesObs1A)) for fti in self.data.ti]
@@ -18,7 +20,7 @@ class Solution:
         self.convolutionA = self.compute_convolution()
         self.mean1A = self.data.mean1A
         self.mean2A = self.data.mean2A
-        self.timeModelA = self.search_ppf(self.compute_cdf(), self.data.probModel, epsilon=1e-4)
+        self.timeModelA = self.search_ppf(self.compute_cdf_convolution(), self.data.probModel, epsilon=1e-4)
         
     def exp(self, x, terms=100):
         """Compute the exponential function
@@ -80,57 +82,33 @@ class Solution:
 
     def compute_convolution(self):
         convolutionA = []
-        """ 
-        [TODO] (1a) Do for every time step t_i:
-        """
         for i in range(len(self.data.ti)):
-            f = self.f1A[:i+1]
+            f = self.f1A[:i+1]               
             g = self.f2A[i::-1]
             Cj = []
             for j in range(len(f)):
                 Cj.append(f[j]*g[j])
             convolutionA.append(self.integrateTrapz(Cj, self.data.ti[:i+1]))
         return convolutionA
-
-
-    def compute_cdf(self):
+    
+    def compute_cdf_convolution(self):
         A = self.integrateTrapz(self.convolutionA, self.data.ti)
         self.convolutionA = [self.convolutionA[i]/A for i in range(len(self.convolutionA))]
         return [self.integrateTrapz(self.convolutionA[:i], self.data.ti[:i]) for i in self.data.ti[1:]]
 
-        
-    def search_ppf(cdf_values, target, epsilon=1e-6):
-        """
-        Calculate the PPF (point percent function = inverse cuumulative distribution function [CDF])
-        of a probability distribution using search.
-        
-        This will find the X axis value of a given y axis value input
-        
-        cdf_values (list): A sorted list representing the CDF from 0 to 1.
-        target (float): The target probability for which the PPF is computed.
-        epsilon (float): The tolerance level for the search.
-
-        return (float): The PPF of the probability distribution.
-        """
-        
-        """
-        [TODO] (2) Implement search function here
-        """
+    def search_ppf(self, cdf_values, target, epsilon=1e-6):
         lo = 0
-        hi = len(cdf_values)-1
+        hi = len(cdf_values) - 1
         while hi - lo > 1:
-            mid = (lo + hi)//2
-            if cdf_values[mid]<target:
+            mid = (lo + hi) // 2
+            if cdf_values[mid] < target:
                 lo = mid
             else:
                 hi = mid
         if abs(cdf_values[hi] - target) < epsilon:
-            return hi 
+            return hi
         else:
-            return lo 
-
-
-        return    
+            return lo
 
 
 
