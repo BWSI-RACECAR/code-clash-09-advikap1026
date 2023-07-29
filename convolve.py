@@ -112,13 +112,12 @@ class DataAnalysis:
 def main():
     data_input = DataInput()
     data_analysis = DataAnalysis(data_input)
-    print(f"mean1A = {round(data_analysis.mean1A,2)}")
-    print(f"mean2A = {round(data_analysis.mean2A,2)}")
-    print(f"mean1A + mean2A = {round(data_analysis.mean1A + data_analysis.mean2A,2)}")
-    print("The probability that two events will take less than t' < t:")
-    print("PrA(t'< {:2.1f} s) = {:2.2f}".format(data_analysis.timeModelA, data_input.probModel))
-    output_plot = OutputPlotting(data_analysis)
-    output_plot.plot()
+    # print(f"mean1A = {round(data_analysis.mean1A,2)}")
+    # print(f"mean2A = {round(data_analysis.mean2A,2)}")
+    # print(f"mean1A + mean2A = {round(data_analysis.mean1A + data_analysis.mean2A,2)}")
+    # print("The probability that two events will take less than t' < t:")
+    # print("PrA(t'< {:2.1f} s) = {:2.2f}".format(data_analysis.timeModelA, data_input.probModel))
+
 
 if __name__ == "__main__":
     main()
